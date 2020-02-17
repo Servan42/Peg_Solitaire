@@ -1,0 +1,317 @@
+Mode: ReplayPerfect 1
+1
+Clear mode? (y/n)
+nS:3,3 | D:3,2 | E:3,1
+  OOO
+ OOOOO
+OOOOOOO
+OO..OOO
+OOOOOOO
+ OOOOO
+  OOO
+
+S:1,2 | D:2,2 | E:3,2
+  OOO
+ O.OOO
+OO.OOOO
+OOO.OOO
+OOOOOOO
+ OOOOO
+  OOO
+
+S:5,3 | D:4,3 | E:3,3
+  OOO
+ O.OOO
+OO.OOOO
+OOOOOOO
+OOO.OOO
+ OO.OO
+  OOO
+
+S:4,5 | D:4,4 | E:4,3
+  OOO
+ O.OOO
+OO.OOOO
+OOOOOOO
+OOOO..O
+ OO.OO
+  OOO
+
+S:2,0 | D:2,1 | E:2,2
+  OOO
+ O.OOO
+..OOOOO
+OOOOOOO
+OOOO..O
+ OO.OO
+  OOO
+
+S:2,3 | D:2,2 | E:2,1
+  OOO
+ O.OOO
+.O..OOO
+OOOOOOO
+OOOO..O
+ OO.OO
+  OOO
+
+S:6,4 | D:5,4 | E:4,4
+  OOO
+ O.OOO
+.O..OOO
+OOOOOOO
+OOOOO.O
+ OO..O
+  OO.
+
+S:4,3 | D:4,4 | E:4,5
+  OOO
+ O.OOO
+.O..OOO
+OOOOOOO
+OOO..OO
+ OO..O
+  OO.
+
+S:4,0 | D:3,0 | E:2,0
+  OOO
+ O.OOO
+OO..OOO
+.OOOOOO
+.OO..OO
+ OO..O
+  OO.
+
+S:2,5 | D:2,4 | E:2,3
+  OOO
+ O.OOO
+OO.O..O
+.OOOOOO
+.OO..OO
+ OO..O
+  OO.
+
+S:0,4 | D:1,4 | E:2,4
+  OO.
+ O.O.O
+OO.OO.O
+.OOOOOO
+.OO..OO
+ OO..O
+  OO.
+
+S:3,2 | D:3,1 | E:3,0
+  OO.
+ O.O.O
+OO.OO.O
+O..OOOO
+.OO..OO
+ OO..O
+  OO.
+
+S:0,2 | D:0,3 | E:0,4
+  ..O
+ O.O.O
+OO.OO.O
+O..OOOO
+.OO..OO
+ OO..O
+  OO.
+
+S:2,3 | D:2,4 | E:2,5
+  ..O
+ O.O.O
+OO...OO
+O..OOOO
+.OO..OO
+ OO..O
+  OO.
+
+S:4,1 | D:4,2 | E:4,3
+  ..O
+ O.O.O
+OO...OO
+O..OOOO
+...O.OO
+ OO..O
+  OO.
+
+S:2,0 | D:2,1 | E:2,2
+  ..O
+ O.O.O
+..O..OO
+O..OOOO
+...O.OO
+ OO..O
+  OO.
+
+S:4,3 | D:3,3 | E:2,3
+  ..O
+ O.O.O
+..OO.OO
+O...OOO
+.....OO
+ OO..O
+  OO.
+
+S:2,3 | D:1,3 | E:0,3
+  .OO
+ O...O
+..O..OO
+O...OOO
+.....OO
+ OO..O
+  OO.
+
+S:6,2 | D:5,2 | E:4,2
+  .OO
+ O...O
+..O..OO
+O...OOO
+..O..OO
+ O...O
+  .O.
+
+S:4,6 | D:4,5 | E:4,4
+  .OO
+ O...O
+..O..OO
+O...OOO
+..O.O..
+ O...O
+  .O.
+
+S:2,6 | D:2,5 | E:2,4
+  .OO
+ O...O
+..O.O..
+O...OOO
+..O.O..
+ O...O
+  .O.
+
+S:3,4 | D:2,4 | E:1,4
+  .OO
+ O..OO
+..O....
+O....OO
+..O.O..
+ O...O
+  .O.
+
+S:0,4 | D:1,4 | E:2,4
+  .O.
+ O...O
+..O.O..
+O....OO
+..O.O..
+ O...O
+  .O.
+
+S:3,6 | D:3,5 | E:3,4
+  .O.
+ O...O
+..O.O..
+O...O..
+..O.O..
+ O...O
+  .O.
+
+S:3,4 | D:2,4 | E:1,4
+  .O.
+ O..OO
+..O....
+O......
+..O.O..
+ O...O
+  .O.
+
+S:1,5 | D:1,4 | E:1,3
+  .O.
+ O.O..
+..O....
+O......
+..O.O..
+ O...O
+  .O.
+
+S:0,3 | D:1,3 | E:2,3
+  ...
+ O....
+..OO...
+O......
+..O.O..
+ O...O
+  .O.
+
+S:2,3 | D:2,2 | E:2,1
+  ...
+ O....
+.O.....
+O......
+..O.O..
+ O...O
+  .O.
+
+S:1,1 | D:2,1 | E:3,1
+  ...
+ .....
+.......
+OO.....
+..O.O..
+ O...O
+  .O.
+
+S:3,0 | D:3,1 | E:3,2
+  ...
+ .....
+.......
+..O....
+..O.O..
+ O...O
+  .O.
+
+S:3,2 | D:4,2 | E:5,2
+  ...
+ .....
+.......
+.......
+....O..
+ OO..O
+  .O.
+
+S:5,1 | D:5,2 | E:5,3
+  ...
+ .....
+.......
+.......
+....O..
+ ..O.O
+  .O.
+
+S:6,3 | D:5,3 | E:4,3
+  ...
+ .....
+.......
+.......
+...OO..
+ ....O
+  ...
+
+S:4,3 | D:4,4 | E:4,5
+  ...
+ .....
+.......
+.......
+.....O.
+ ....O
+  ...
+
+S:5,5 | D:4,5 | E:3,5
+  ...
+ .....
+.......
+.....O.
+.......
+ .....
+  ...
