@@ -51,6 +51,27 @@ namespace Peg_SolitaireTDDTest
         /// <summary>
         /// Suivant une boule choisie
         /// Quand je déplace la boule dans une de ses destinations valides
+        /// La boule est bien déplacée
+        /// </summary>
+        [Test]
+        public void Ball_moved_should_be_moved_correctly()
+        {
+            // GIVEN
+            Case ball = _gameService.PickBallToPlay();
+            (int i, int j) ballInitialPosistion = ball.Posistion;
+            (int i, int j, string orientation) ballDestination = ball.BallValidDestinations[0];
+
+            // WHEN
+            _ = _gameService.MoveBall(ball, ballDestination);
+
+            // THEN
+            Assert.True(_gameService.Gameboard.CaseList[ballInitialPosistion.i][ballInitialPosistion.j].IsEmpty);
+            Assert.False(_gameService.Gameboard.CaseList[ballDestination.i][ballDestination.j].IsEmpty);
+        }
+
+        /// <summary>
+        /// Suivant une boule choisie
+        /// Quand je déplace la boule dans une de ses destinations valides
         /// la boule sautée est supprimée
         /// </summary>
         [Test]
@@ -58,12 +79,33 @@ namespace Peg_SolitaireTDDTest
         {
             // GIVEN
             Case ball = _gameService.PickBallToPlay();
+            Case deletedBallCase;
+            (int i, int j) ballInitialPosistion = ball.Posistion;
+            (int i, int j, string orientation) ballDestination = ball.BallValidDestinations[0];
 
             // WHEN
-            _gameService.MoveBall(ball, ball.BallValidDestinations[0]);
+            deletedBallCase = _gameService.MoveBall(ball, ballDestination);
 
             // THEN
-            //Assert.That(crossed over ball is deleted from the board)
+            Assert.True(deletedBallCase.IsEmpty);
+        }
+
+        /// <summary>
+        /// Suivant une boule choisie
+        /// Quand je déplace la boule dans une destinations non valide
+        /// Je reçois une exception
+        /// </summary>
+        [Test]
+        public void Invalid_move_should_throw_exception()
+        {
+            // GIVEN
+            Case ball = _gameService.PickBallToPlay();
+
+            // WHEN
+            Action wrongMoveAction = () => _gameService.MoveBall(ball, (0,0,"i"));
+
+            // THEN
+            Assert.Throws<Peg_SolitaireTDD.api.InvalidMoveException>(wrongMoveAction.Invoke);
         }
     }
 }

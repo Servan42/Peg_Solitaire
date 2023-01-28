@@ -2,15 +2,18 @@
 {
     public class Case
     {
-        public Case(bool isUsable)
+        public Case(bool isUsable, (int x, int y) posistion)
         {
             IsEmpty = false;
             IsUsable = isUsable;
             BallValidDestinations = new();
+            Posistion = posistion;
         }
 
+        public readonly (int x, int y) Posistion;
+
         public bool BallIsMovable { get => BallValidDestinations.Count > 0; }
-        public List<(int x, int y)> BallValidDestinations { get; set; }
+        public List<(int x, int y, string orientation)> BallValidDestinations { get; set; }
         public bool IsEmpty { get; set; }
         public bool IsUsable { get; set; }
 
