@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Peg_SolitaireTDD", "Peg_SolitaireTDD\Peg_SolitaireTDD.csproj", "{612000C0-3C9E-4DF7-AB45-22DB223A7DBF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Peg_SolitaireTDDTest", "Peg_SolitaireTDDTest\Peg_SolitaireTDDTest.csproj", "{9112B0D5-FC78-4033-8DA7-20F7C3A2DAE3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{612000C0-3C9E-4DF7-AB45-22DB223A7DBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{612000C0-3C9E-4DF7-AB45-22DB223A7DBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{612000C0-3C9E-4DF7-AB45-22DB223A7DBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{612000C0-3C9E-4DF7-AB45-22DB223A7DBF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9112B0D5-FC78-4033-8DA7-20F7C3A2DAE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9112B0D5-FC78-4033-8DA7-20F7C3A2DAE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9112B0D5-FC78-4033-8DA7-20F7C3A2DAE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9112B0D5-FC78-4033-8DA7-20F7C3A2DAE3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {80754643-426F-43BC-AACB-2493FB72A9BA}
+	EndGlobalSection
+EndGlobal
