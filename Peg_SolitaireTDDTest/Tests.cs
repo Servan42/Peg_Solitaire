@@ -42,7 +42,7 @@ namespace Peg_SolitaireTDDTest
             Case ball;
 
             /// WHEN
-            ball = _gameService.PickBallToPlay();
+            ball = _gameService.PickBallToPlay(new(),true);
 
             /// THEN
             Assert.That(ball.BallIsMovable);
@@ -57,7 +57,7 @@ namespace Peg_SolitaireTDDTest
         public void Ball_moved_should_be_moved_correctly()
         {
             // GIVEN
-            Case ball = _gameService.PickBallToPlay();
+            Case ball = _gameService.PickBallToPlay(new(), true);
             (int i, int j) ballInitialPosistion = ball.Posistion;
             (int i, int j, string orientation) ballDestination = ball.BallValidDestinations[0];
 
@@ -78,10 +78,10 @@ namespace Peg_SolitaireTDDTest
         public void Ball_crossed_over_by_another_moved_ball_should_be_removed_from_board()
         {
             // GIVEN
-            Case ball = _gameService.PickBallToPlay();
+            Case ball = _gameService.PickBallToPlay(new(), true);
             Case deletedBallCase;
             (int i, int j) ballInitialPosistion = ball.Posistion;
-            (int i, int j, string orientation) ballDestination = ball.BallValidDestinations[0];
+            (int i, int j, string orientation) ballDestination = _gameService.PickValidBallDestinationFromCase(ball);
 
             // WHEN
             deletedBallCase = _gameService.MoveBall(ball, ballDestination);
@@ -99,13 +99,32 @@ namespace Peg_SolitaireTDDTest
         public void Invalid_move_should_throw_exception()
         {
             // GIVEN
-            Case ball = _gameService.PickBallToPlay();
+            Case ball = _gameService.PickBallToPlay(new(), true);
 
             // WHEN
             Action wrongMoveAction = () => _gameService.MoveBall(ball, (0,0,"i"));
 
             // THEN
             Assert.Throws<Peg_SolitaireTDD.api.InvalidMoveException>(wrongMoveAction.Invoke);
+        }
+
+
+        /// <summary>
+        /// Depuis une nouveau plateau de jeu
+        /// Quand je joue une partie complete
+        /// Je ne peux plus bouger aucune boule à la fin
+        /// </summary>
+        [Test]
+        public void After_a_full_game_there_should_be_0_playable_ball()
+        {
+            // GIVEN
+            // a new board
+
+            // WHEN
+            _gameService.PlayFullGame();
+
+            // THEN
+            Assert.That(_gameService.NumberOfRemainingPlaybleBalls(), Is.EqualTo(0));
         }
     }
 }

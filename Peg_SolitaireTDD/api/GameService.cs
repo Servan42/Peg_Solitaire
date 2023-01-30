@@ -1,4 +1,7 @@
 ﻿using Peg_SolitaireTDD.Model;
+using Peg_SolitaireTDD.spi;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net.Http.Headers;
 
 namespace Peg_SolitaireTDD.api
@@ -19,18 +22,19 @@ namespace Peg_SolitaireTDD.api
 
         /// <returns>Deleted ball Case object</returns>
         /// <exception cref="InvalidMoveException">When the destination given in parameter is not part of balls movable destinations</exception>
-        public Case MoveBall(Case ball, (int i, int j, string orientation) destination)
+        public Case MoveBall(Case ball, (int i, int j, string orientation) destination, bool isReplay = false)
         {
-            if(ball.BallValidDestinations.Count == 0 
-                || !ball.BallValidDestinations.Contains(destination)) throw new InvalidMoveException();
+            if (!isReplay &&  
+                (ball.BallValidDestinations.Count == 0
+                || !ball.BallValidDestinations.Contains(destination))) throw new InvalidMoveException();
 
             Case deletedBallCase = null;
             ball.IsEmpty = true;
             ball.BallValidDestinations.Clear();
-            
+
             Gameboard.CaseList[destination.i][destination.j].IsEmpty = false;
-            
-            switch(destination.orientation)
+
+            switch (destination.orientation)
             {
                 case MOVE_TOWARDS_I:
                     deletedBallCase = Gameboard.CaseList[destination.i - 1][destination.j];
@@ -49,6 +53,11 @@ namespace Peg_SolitaireTDD.api
             return deletedBallCase;
         }
 
+        public Case MoveBall((int i, int j) ballToMovePosition, (int i, int j, string orientation) destination, bool isReplay = false)
+        {
+            return this.MoveBall(Gameboard.CaseList[ballToMovePosition.i][ballToMovePosition.j], destination, isReplay);
+        }
+
         public int NumberOfRemainingBalls()
         {
             int nb = 0;
@@ -56,11 +65,62 @@ namespace Peg_SolitaireTDD.api
             return nb;
         }
 
-        public Case PickBallToPlay()
+        public int NumberOfRemainingPlaybleBalls()
         {
-            return this.ComputeValideMovesForEachBallAndReturnsPlayableBallList().First();
+            int nb = 0;
+            Gameboard.CaseList.ForEach(ligne => nb += ligne.Count(c => c.BallIsMovable));
+            return nb;
         }
 
+        /// <returns>The ball to play.</returns>
+        public Case PickBallToPlay(List<Case> playableBallList, bool shouldComputeFirst = false)
+        {
+            if (shouldComputeFirst) playableBallList = this.ComputeValideMovesForEachBallAndReturnsPlayableBallList();
+            //return playableBallList.First();
+            return playableBallList[StaticRandom.Rand(0, playableBallList.Count)];
+        }
+
+        public (int i, int j, string orientation) PickValidBallDestinationFromCase(Case caseToPickFrom)
+        {
+            //return caseToPickFrom.BallValidDestinations.First();
+            return caseToPickFrom.BallValidDestinations[StaticRandom.Rand(0, caseToPickFrom.BallValidDestinations.Count)];
+        }
+
+        public List<ReplayStep> PlayFullGame()
+        {
+            Case ballToPlay;
+            (int i, int j, string orientation) ballDestination;
+            List<ReplayStep> replaySteps = new List<ReplayStep>();
+            List<Case> playableBallList = this.ComputeValideMovesForEachBallAndReturnsPlayableBallList();
+            do
+            {
+                ballToPlay = this.PickBallToPlay(playableBallList);
+                ballDestination = PickValidBallDestinationFromCase(ballToPlay);
+                replaySteps.Add(new ReplayStep(ballToPlay.Posistion, ballDestination));
+                this.MoveBall(ballToPlay, ballDestination);
+                playableBallList = this.ComputeValideMovesForEachBallAndReturnsPlayableBallList();
+            } while (this.NumberOfRemainingPlaybleBalls() > 0);
+            return replaySteps;
+        }
+
+        public List<ReplayStep> PlayPerfectGame()
+        {
+            int i = 0;
+            int remainingBalls;
+            List<ReplayStep> replaySteps;
+            Console.Clear();
+            do
+            {
+                this.InitGameBoard();
+                replaySteps = this.PlayFullGame();
+                remainingBalls = this.NumberOfRemainingBalls();
+                Console.SetCursorPosition(0, 0);
+                Console.Write($"Game n°{i++}\tRemaining balls: {remainingBalls}");
+            } while (remainingBalls > 0);
+            return replaySteps;
+        }
+
+        /// <returns>A list of valid balls to play.</returns>
         private List<Case> ComputeValideMovesForEachBallAndReturnsPlayableBallList()
         {
             List<Case> playableBallList = new();
@@ -68,9 +128,9 @@ namespace Peg_SolitaireTDD.api
             {
                 for (int j = 0; j < 7; j++)
                 {
-                    if (!Gameboard.CaseList[i][j].IsEmpty)
+                    Gameboard.CaseList[i][j].BallValidDestinations.Clear();
+                    if (!Gameboard.CaseList[i][j].IsEmpty && Gameboard.CaseList[i][j].IsUsable)
                     {
-                        Gameboard.CaseList[i][j].BallValidDestinations.Clear();
                         if (this.IsMovableAlongI(i, j))
                         {
                             Gameboard.CaseList[i][j].BallValidDestinations.Add((i + 2, j, MOVE_TOWARDS_I));
@@ -160,6 +220,7 @@ namespace Peg_SolitaireTDD.api
         {
             cases[3][3].IsEmpty = true;
         }
+
     }
 
     public class InvalidMoveException : Exception { }
