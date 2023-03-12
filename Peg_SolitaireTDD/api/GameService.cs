@@ -8,10 +8,6 @@ namespace Peg_SolitaireTDD.api
 {
     public class GameService
     {
-        private const string MOVE_TOWARDS_I = "i";
-        private const string MOVE_TOWARDS_MINUS_I = "-i";
-        private const string MOVE_TOWARDS_J = "j";
-        private const string MOVE_TOWARDS_MINUS_J = "-j";
         public (int i, int j) StartingPosition { get; private set; }
 
         public GameService((int i, int j) startingPosition)
@@ -26,9 +22,8 @@ namespace Peg_SolitaireTDD.api
         /// <exception cref="InvalidMoveException">When the destination given in parameter is not part of balls movable destinations</exception>
         public Case MoveBall(Case ball, (int i, int j, string orientation) destination, bool isReplay = false)
         {
-            if (!isReplay &&
-                (ball.BallValidDestinations.Count == 0
-                || !ball.BallValidDestinations.Contains(destination))) throw new InvalidMoveException();
+            if (ball.BallValidDestinations.Count == 0
+                || !ball.BallValidDestinations.Contains(destination)) throw new InvalidMoveException();
 
             Case deletedBallCase = null;
             ball.IsEmpty = true;
@@ -58,9 +53,10 @@ namespace Peg_SolitaireTDD.api
             return deletedBallCase;
         }
 
-        public Case MoveBall((int i, int j) ballToMovePosition, (int i, int j, string orientation) destination, bool isReplay = false)
+        public void MoveBallReplay((int i, int j) ballToMovePosition, (int i, int j, string orientation) destination)
         {
-            return this.MoveBall(Gameboard.CaseList[ballToMovePosition.i][ballToMovePosition.j], destination, isReplay);
+            _ = this.MoveBall(Gameboard.CaseList[ballToMovePosition.i][ballToMovePosition.j], destination, true);
+            _ = this.ComputeValideMovesForEachBallAndReturnsPlayableBallList();
         }
 
         public int NumberOfRemainingBalls()
@@ -173,19 +169,19 @@ namespace Peg_SolitaireTDD.api
                     {
                         if (this.IsMovableAlongI(i, j))
                         {
-                            Gameboard.CaseList[i][j].BallValidDestinations.Add((i + 2, j, MOVE_TOWARDS_I));
+                            Gameboard.CaseList[i][j].BallValidDestinations.Add((i + 2, j, GameServiceHelper.MOVE_TOWARDS_I));
                         }
                         if (this.IsMovableAlongMinusI(i, j))
                         {
-                            Gameboard.CaseList[i][j].BallValidDestinations.Add((i - 2, j, MOVE_TOWARDS_MINUS_I));
+                            Gameboard.CaseList[i][j].BallValidDestinations.Add((i - 2, j, GameServiceHelper.MOVE_TOWARDS_MINUS_I));
                         }
                         if (this.IsMovableAlongJ(i, j))
                         {
-                            Gameboard.CaseList[i][j].BallValidDestinations.Add((i, j + 2, MOVE_TOWARDS_J));
+                            Gameboard.CaseList[i][j].BallValidDestinations.Add((i, j + 2, GameServiceHelper.MOVE_TOWARDS_J));
                         }
                         if (this.IsMovableAlongMinusJ(i, j))
                         {
-                            Gameboard.CaseList[i][j].BallValidDestinations.Add((i, j - 2, MOVE_TOWARDS_MINUS_J));
+                            Gameboard.CaseList[i][j].BallValidDestinations.Add((i, j - 2, GameServiceHelper.MOVE_TOWARDS_MINUS_J));
                         }
                         if (Gameboard.CaseList[i][j].BallIsMovable) playableBallList.Add(Gameboard.CaseList[i][j]);
                     }
@@ -223,7 +219,7 @@ namespace Peg_SolitaireTDD.api
                 && !Gameboard.CaseList[i][j - 1].IsEmpty;
         }
 
-        private void InitGameBoard()
+        public void InitGameBoard()
         {
             List<List<Case>> cases = new List<List<Case>>();
             for (int i = 0; i < 7; i++)

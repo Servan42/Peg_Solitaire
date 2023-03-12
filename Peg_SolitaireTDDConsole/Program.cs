@@ -1,6 +1,7 @@
 ﻿using Peg_SolitaireTDD;
 using Peg_SolitaireTDD.api;
 using System;
+using System.Data;
 
 namespace Peg_SolitaireTDDConsole
 {
@@ -24,39 +25,30 @@ namespace Peg_SolitaireTDDConsole
             Console.WriteLine(DateTime.Now - starttime);
         }
 
-        private static void PlayOneGameAndDisplayIt()
+        private static void PlayGames()
         {
             GameService gameService = new GameService((3,3));
             ReplayService replayService;
             List<ReplayStep> replaySteps;
 
             replaySteps = gameService.PlayFullGame();
-            
-            replayService = new ReplayService((replaySteps[0].BallDestination.i, replaySteps[0].BallDestination.j));
-            replayService.ReplayGame(replaySteps);
-        }
-
-        private static void PlayPerfectGameAndDisplayIt()
-        {
-            GameService gameService = new GameService((3, 3));
-            ReplayService replayService;
-            List<ReplayStep> replaySteps;
-
             replaySteps = gameService.PlayPerfectGame();
-
-            replayService = new ReplayService((replaySteps[0].BallDestination.i, replaySteps[0].BallDestination.j));
-            replayService.ReplayGame(replaySteps);
-        }
-        private static void PlayXGamesAndDisplayTheBest()
-        {
-            GameService gameService = new GameService((3, 3));
-            ReplayService replayService;
-            List<ReplayStep> replaySteps;
-
             replaySteps = gameService.PlayGamesBestOfX(10000);
 
             replayService = new ReplayService((replaySteps[0].BallDestination.i, replaySteps[0].BallDestination.j));
             replayService.ReplayGame(replaySteps);
         }
+
+        //private static void UseGeneticAlgorithToPlay()
+        //{
+        //    ReplayService replayService;
+        //    List<ReplayStep> replaySteps;
+        //    GeneticAlgorithmService geneticAlgorithmService = new();
+
+        //    replaySteps = geneticAlgorithmService.Run();
+
+        //    replayService = new ReplayService((replaySteps[0].BallDestination.i, replaySteps[0].BallDestination.j));
+        //    replayService.ReplayGame(replaySteps);
+        //}
     }
 }
