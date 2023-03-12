@@ -17,9 +17,10 @@ namespace Peg_SolitaireTDDConsole
             DateTime starttime = DateTime.Now;
             //statisticsService.QuickStat(3, 3, 20000);
             //statisticsService.CompleteStat(20000);
-            statisticsService.CompleteStatThread(20000);
+            //statisticsService.CompleteStatThread(20000);
             //statisticsService.CompleteStatThread2(20000);
             //statisticsService.CompleteStatTasks(20000);
+            statisticsService.OccStatThread(3,3,100000,8);
             Console.WriteLine(DateTime.Now - starttime);
         }
 
@@ -42,6 +43,17 @@ namespace Peg_SolitaireTDDConsole
             List<ReplayStep> replaySteps;
 
             replaySteps = gameService.PlayPerfectGame();
+
+            replayService = new ReplayService((replaySteps[0].BallDestination.i, replaySteps[0].BallDestination.j));
+            replayService.ReplayGame(replaySteps);
+        }
+        private static void PlayXGamesAndDisplayTheBest()
+        {
+            GameService gameService = new GameService((3, 3));
+            ReplayService replayService;
+            List<ReplayStep> replaySteps;
+
+            replaySteps = gameService.PlayGamesBestOfX(10000);
 
             replayService = new ReplayService((replaySteps[0].BallDestination.i, replaySteps[0].BallDestination.j));
             replayService.ReplayGame(replaySteps);

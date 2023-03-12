@@ -198,5 +198,80 @@ namespace Peg_SolitaireTDD.api
 
             Console.WriteLine("Execution Time: {0}", DateTime.Now - startTime);
         }
+
+        /// <summary>
+        /// Runs games and display the repartition of remaining ball counts. Threaded.
+        /// </summary>
+        /// <param name="aX">Starting position X</param>
+        /// <param name="aY">Strating position Y</param>
+        /// <param name="aGameCount">Number of games to play</param>
+        public void OccStatThread(int aX, int aY, int aGameCount, int aThreadNumber)
+        {
+            DateTime startTime = DateTime.Now;
+            Dictionary<int, int> occList = new Dictionary<int, int>();
+            object lockOccList = new object();
+            List<Thread> threadList = new List<Thread>();
+            int threadNumber = aThreadNumber == 0 ? Environment.ProcessorCount : aThreadNumber;
+            StringBuilder s = new StringBuilder();
+
+            Console.WriteLine("Mode: OccStat ({0} threads)\n", threadNumber);
+
+            aGameCount = (aGameCount / threadNumber) * threadNumber;
+
+            // Thread code. Generate the games and get the ball count at the end.
+            Action threadCode = () =>
+            {
+                GameService gameService;
+                int sum = 0;
+                int min = 100;
+                int ballcount;
+                for (int i = 0; i < aGameCount / threadNumber; i++)
+                {
+                    gameService = new GameService((aX, aY));
+                    gameService.PlayFullGame();
+                    ballcount = gameService.NumberOfRemainingBalls();
+                    sum += ballcount;
+                    if (ballcount < min) min = ballcount;
+                    lock (lockOccList)
+                    {
+                        if (occList.ContainsKey(ballcount))
+                        {
+                            occList[ballcount] = occList[ballcount] + 1;
+                        }
+                        else
+                        {
+                            occList.Add(ballcount, 1);
+                        }
+                    }
+                }
+            };
+
+            // Create the threads and run them.
+            for (int i = 0; i < threadNumber; i++) threadList.Add(new Thread(new ThreadStart(threadCode)));
+            foreach (Thread t in threadList) t.Start();
+            foreach (Thread t in threadList) t.Join();
+
+            // Add missing ball counts
+            for (int i = 1; i < 25; i++)
+            {
+                if (!occList.ContainsKey(i)) occList.Add(i, 0);
+            }
+
+            // Display the results
+            foreach (KeyValuePair<int, int> occ in occList.OrderBy(key => key.Key))
+            {
+                s.Clear();
+                s.Append(occ.Key.ToString("D2")).Append(": ");
+                for (int i = 0; i < occ.Value * 300 / aGameCount; i++)
+                {
+                    s.Append("*");
+                }
+                s.Append(" (").Append(Math.Round((float)occ.Value * 100 / aGameCount, 4)).Append("%)");
+                Console.WriteLine(s.ToString());
+            }
+
+            Console.WriteLine("Execution Time: {0}", DateTime.Now - startTime);
+            // Console.WriteLine("\nMoyenne : {0}\nMinimum : {1}", (float)sum / aGameCount, min);
+        }
     }
 }

@@ -91,6 +91,10 @@ namespace Peg_SolitaireTDD.api
             return caseToPickFrom.BallValidDestinations[StaticRandom.Rand(0, caseToPickFrom.BallValidDestinations.Count)];
         }
 
+        /// <summary>
+        /// Plays a full game of PegSolitaire
+        /// </summary>
+        /// <returns>The instruction list of the game, to replay it later</returns>
         public List<ReplayStep> PlayFullGame()
         {
             Case ballToPlay;
@@ -108,6 +112,37 @@ namespace Peg_SolitaireTDD.api
             return replaySteps;
         }
 
+        /// <summary>
+        /// Play gameCount games of PegSolitaire and returns the replay of the best one
+        /// </summary>
+        /// <returns>The instruction list of the game, to replay it later</returns>
+        public List<ReplayStep> PlayGamesBestOfX(int gameCount)
+        {
+            int remainingBalls;
+            int minBalls = int.MaxValue;
+            List<ReplayStep> replaySteps;
+            List<ReplayStep> bestReplay = null;
+            Console.Clear();
+
+            for(int i = 0; i < gameCount; i++)
+            {
+                this.InitGameBoard();
+                replaySteps = this.PlayFullGame();
+                remainingBalls = this.NumberOfRemainingBalls();
+                if(minBalls > remainingBalls)
+                {
+                    minBalls = remainingBalls;
+                    bestReplay = replaySteps;
+                }
+            }
+            Console.WriteLine($"Remaining balls: {minBalls}");
+            return bestReplay;
+        }
+
+        /// <summary>
+        /// Play games of PegSolitaire until one of them wins (1 remaining ball)
+        /// </summary>
+        /// <returns>The instruction list of the game, to replay it later</returns>
         public List<ReplayStep> PlayPerfectGame()
         {
             int i = 0;
