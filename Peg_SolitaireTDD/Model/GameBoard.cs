@@ -49,5 +49,39 @@ namespace Peg_SolitaireTDD.Model
             }
             return sb.ToString();
         }
+
+        internal void PrintColoredBoard((int i, int j) ballInitialPosition, (int i, int j, string orientation) ballDestination)
+        {
+            for (int i = 0; i < CaseList.Count; i++)
+            {
+                for (int j = 0; j < CaseList[i].Count; j++)
+                {
+                    if (i == ballInitialPosition.i && j == ballInitialPosition.j)
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        Console.Write(".");
+                    }
+                    else if (i == ballDestination.i && j == ballDestination.j)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.Write("O");
+                    }
+                    else if (ballDestination.orientation == "i" && i == ballDestination.i - 1 && j == ballDestination.j
+                        || ballDestination.orientation == "-i" && i == ballDestination.i + 1 && j == ballDestination.j
+                        || ballDestination.orientation == "j" && i == ballDestination.i && j == ballDestination.j - 1
+                        || ballDestination.orientation == "-j" && i == ballDestination.i && j == ballDestination.j + 1)
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkGray;
+                        Console.Write("x");
+                    }
+                    else
+                    {
+                        Console.Write(CaseList[i][j].ToString());
+                    }
+                    Console.ResetColor();
+                }
+                Console.WriteLine();
+            }
+        }
     }
 }

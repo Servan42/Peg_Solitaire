@@ -11,20 +11,21 @@ namespace Peg_SolitaireTDD.api
     {
         private GameService _gameService;
 
-        public ReplayService()
+        public ReplayService((int i, int j) startingPosition)
         {
-            this._gameService = new GameService();
+            this._gameService = new GameService(startingPosition);
         }
 
-        public string ReplayGame(List<ReplayStep> replaySteps)
+        public void ReplayGame(List<ReplayStep> replaySteps)
         {
             foreach (ReplayStep step in replaySteps)
             {
                 _gameService.MoveBall(step.BallInitialPosition, step.BallDestination, true);
                 Console.WriteLine(step);
-                Console.WriteLine(_gameService.Gameboard.DetailedToString(step.BallDestination));
+                //Console.WriteLine(_gameService.Gameboard.DetailedToString(step.BallDestination));
+                _gameService.Gameboard.PrintColoredBoard(step.BallInitialPosition ,step.BallDestination);
+                Console.WriteLine();
             }
-            return "";
         }
     }
 }

@@ -12,9 +12,11 @@ namespace Peg_SolitaireTDD.api
         private const string MOVE_TOWARDS_MINUS_I = "-i";
         private const string MOVE_TOWARDS_J = "j";
         private const string MOVE_TOWARDS_MINUS_J = "-j";
+        public (int i, int j) StartingPosition { get; private set; }
 
-        public GameService()
+        public GameService((int i, int j) startingPosition)
         {
+            StartingPosition = startingPosition;
             this.InitGameBoard();
         }
 
@@ -34,21 +36,24 @@ namespace Peg_SolitaireTDD.api
 
             Gameboard.CaseList[destination.i][destination.j].IsEmpty = false;
 
-            switch (destination.orientation)
-            {
-                case MOVE_TOWARDS_I:
-                    deletedBallCase = Gameboard.CaseList[destination.i - 1][destination.j];
-                    break;
-                case MOVE_TOWARDS_MINUS_I:
-                    deletedBallCase = Gameboard.CaseList[destination.i + 1][destination.j];
-                    break;
-                case MOVE_TOWARDS_J:
-                    deletedBallCase = Gameboard.CaseList[destination.i][destination.j - 1];
-                    break;
-                case MOVE_TOWARDS_MINUS_J:
-                    deletedBallCase = Gameboard.CaseList[destination.i][destination.j + 1];
-                    break;
-            }
+            //switch (destination.orientation)
+            //{
+            //    case MOVE_TOWARDS_I:
+            //        deletedBallCase = Gameboard.CaseList[destination.i - 1][destination.j];
+            //        break;
+            //    case MOVE_TOWARDS_MINUS_I:
+            //        deletedBallCase = Gameboard.CaseList[destination.i + 1][destination.j];
+            //        break;
+            //    case MOVE_TOWARDS_J:
+            //        deletedBallCase = Gameboard.CaseList[destination.i][destination.j - 1];
+            //        break;
+            //    case MOVE_TOWARDS_MINUS_J:
+            //        deletedBallCase = Gameboard.CaseList[destination.i][destination.j + 1];
+            //        break;
+            //}
+
+            deletedBallCase = Gameboard.CaseList[(ball.Posistion.x + destination.i) / 2][(ball.Posistion.y + destination.j) / 2];
+
             deletedBallCase.IsEmpty = true;
             return deletedBallCase;
         }
@@ -116,7 +121,7 @@ namespace Peg_SolitaireTDD.api
                 remainingBalls = this.NumberOfRemainingBalls();
                 Console.SetCursorPosition(0, 0);
                 Console.Write($"Game n°{i++}\tRemaining balls: {remainingBalls}");
-            } while (remainingBalls > 0);
+            } while (remainingBalls > 1);
             return replaySteps;
         }
 
@@ -218,9 +223,8 @@ namespace Peg_SolitaireTDD.api
 
         private void InitStartingPosition(List<List<Case>> cases)
         {
-            cases[3][3].IsEmpty = true;
+            cases[StartingPosition.i][StartingPosition.j].IsEmpty = true;
         }
-
     }
 
     public class InvalidMoveException : Exception { }

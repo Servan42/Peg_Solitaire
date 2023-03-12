@@ -10,7 +10,7 @@ namespace Peg_SolitaireTDDTest
         [SetUp]
         public void Setup()
         {
-            _gameService = new GameService();
+            _gameService = new GameService((3,3));
         }
         /// <summary>
         /// Avec un plateau de jeu vide
