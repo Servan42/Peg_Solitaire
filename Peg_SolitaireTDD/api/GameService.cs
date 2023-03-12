@@ -26,7 +26,7 @@ namespace Peg_SolitaireTDD.api
         /// <exception cref="InvalidMoveException">When the destination given in parameter is not part of balls movable destinations</exception>
         public Case MoveBall(Case ball, (int i, int j, string orientation) destination, bool isReplay = false)
         {
-            if (!isReplay &&  
+            if (!isReplay &&
                 (ball.BallValidDestinations.Count == 0
                 || !ball.BallValidDestinations.Contains(destination))) throw new InvalidMoveException();
 
@@ -104,7 +104,7 @@ namespace Peg_SolitaireTDD.api
                 replaySteps.Add(new ReplayStep(ballToPlay.Posistion, ballDestination));
                 this.MoveBall(ballToPlay, ballDestination);
                 playableBallList = this.ComputeValideMovesForEachBallAndReturnsPlayableBallList();
-            } while (this.NumberOfRemainingPlaybleBalls() > 0);
+            } while (playableBallList.Count > 0);
             return replaySteps;
         }
 

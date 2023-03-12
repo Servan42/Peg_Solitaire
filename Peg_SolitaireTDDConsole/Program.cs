@@ -2,13 +2,25 @@
 using Peg_SolitaireTDD.api;
 using System;
 
-namespace Peg_SolitaireTDDConsole // Note: actual namespace depends on the project name.
+namespace Peg_SolitaireTDDConsole
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-            PlayOneGameAndDisplayIt();
+            RunStats();
+        }
+
+        private static void RunStats()
+        {
+            StatisticsService statisticsService= new StatisticsService();
+            DateTime starttime = DateTime.Now;
+            //statisticsService.QuickStat(3, 3, 20000);
+            //statisticsService.CompleteStat(20000);
+            statisticsService.CompleteStatThread(20000);
+            //statisticsService.CompleteStatThread2(20000);
+            //statisticsService.CompleteStatTasks(20000);
+            Console.WriteLine(DateTime.Now - starttime);
         }
 
         private static void PlayOneGameAndDisplayIt()
